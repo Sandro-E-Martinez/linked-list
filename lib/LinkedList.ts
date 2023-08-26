@@ -18,11 +18,30 @@ export class LinkedList<T> {
     current.next = newNode;
   }
 
-  print(): void {
+  prepend(value: T): void {
+    const newNode = new Node(value);
+    newNode.next = this.head;
+    this.head = newNode;
+  }
+
+  toArray(): T[] {
+    const nodes: T[] = [];
     let current = this.head;
     while (current) {
-      console.log(current.value);
+      nodes.push(current.value);
       current = current.next;
     }
+    return nodes;
+  }
+
+  print(): void {
+    let current = this.head;
+    let output = 'Head -> ';
+    while (current) {
+      output += `${current.value} -> `;
+      current = current.next;
+    }
+    output += 'null';
+    console.log(output);
   }
 }
