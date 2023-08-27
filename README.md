@@ -70,16 +70,42 @@ list.delete(2);
 
 #### Reversing the List
 
-Reverse the entire list:
+You can reverse the entire list using the reverse() method with no arguments.
 
 ```typescript
+// Original list: [1, 2, 3, 4, 5]
+const list = new LinkedList<number>();
+list.append(1);
+list.append(2);
+list.append(3);
+list.append(4);
+list.append(5);
+
+// Reverse the entire list
 list.reverse();
+
+// Resulting list: [5, 4, 3, 2, 1]
+const reversedArray = list.toArray();
+console.log(reversedArray); // Output: [5, 4, 3, 2, 1]
 ```
 
-Or, reverse a sublist between two positions:
+You can reverse a specific portion of the list by specifying the from and to indices.
 
 ```typescript
-list.reverse(1, 2);
+// Original list: [1, 2, 3, 4, 5]
+const list = new LinkedList<number>();
+list.append(1);
+list.append(2);
+list.append(3);
+list.append(4);
+list.append(5);
+
+// Reverse from position 2 to position 4 (1-based index)
+list.reverse(2, 4);
+
+// Resulting list: [1, 4, 3, 2, 5]
+const reversedSublistArray = list.toArray();
+console.log(reversedSublistArray); // Output: [1, 4, 3, 2, 5]
 ```
 
 #### Converting to Array
