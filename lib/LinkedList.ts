@@ -56,10 +56,12 @@ export class LinkedList<T> {
    */
   prepend(value: T): void {
     const newNode = new Node(value);
-    newNode.next = this._head;
-    this._head = newNode;
-    if (!this._tail) {
+    if (!this._head) {
+      this._head = newNode;
       this._tail = newNode;
+    } else {
+      newNode.next = this._head;
+      this._head = newNode;
     }
     this._length++;
   }
@@ -97,7 +99,7 @@ export class LinkedList<T> {
       current = current.next;
       index++;
     }
-    return -1; // Value not found
+    return -1;
   }
 
   /**
@@ -111,18 +113,19 @@ export class LinkedList<T> {
       throw new Error('Invalid position.');
     }
 
-    const newNode = new Node(value);
-
     if (position === 0) {
       this.prepend(value);
+      return;
     } else if (position === this._length) {
       this.append(value);
-    } else {
-      const previousNode = this.lookup(position - 1);
-      if (previousNode) {
-        newNode.next = previousNode.next;
-        previousNode.next = newNode;
-      }
+      return;
+    }
+
+    const newNode = new Node(value);
+    const previousNode = this.lookup(position - 1);
+    if (previousNode) {
+      newNode.next = previousNode.next;
+      previousNode.next = newNode;
     }
 
     this._length++;
@@ -144,18 +147,23 @@ export class LinkedList<T> {
       return;
     }
 
-    let current = this._head;
-    while (current.next) {
-      if (current.next.value === value) {
-        current.next = current.next.next;
-        if (!current.next) {
-          this._tail = current;
-        }
-        this._length--;
-        return;
-      }
+    let current: Node<T> | null = this._head;
+    let prev: Node<T> | null = null;
 
+    while (current && current.value !== value) {
+      prev = current;
       current = current.next;
+    }
+
+    if (current) {
+      if (prev) {
+        prev.next = current.next;
+
+        if (!current.next && this._tail === current) {
+          this._tail = prev;
+        }
+      }
+      this._length--;
     }
   }
 
