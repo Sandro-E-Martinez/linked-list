@@ -76,12 +76,12 @@ export class LinkedList<T> {
    * @returns The the node at the specified position.
    */
   lookup(position: number): Node<T> | null {
-    if (position < 0 || position >= this._length) {
+    if (position < 1 || position > this._length) {
       return null;
     }
 
     let current = this._head;
-    for (let i = 0; i < position; i++) {
+    for (let i = 1; i < position; i++) {
       current = current!.next;
     }
     return current;
@@ -94,7 +94,7 @@ export class LinkedList<T> {
    */
   indexOf(value: T): number {
     let current = this._head;
-    let index = 0;
+    let index = 1; // Starts at 1 now
 
     while (current) {
       if (current.value === value) {
@@ -113,14 +113,14 @@ export class LinkedList<T> {
    * @throws An error if the position is invalid.
    */
   insert(position: number, value: T): void {
-    if (position < 0 || position > this._length) {
+    if (position < 1 || position > this._length + 1) {
       throw new Error('Invalid position.');
     }
 
-    if (position === 0) {
+    if (position === 1) {
       this.prepend(value);
       return;
-    } else if (position === this._length) {
+    } else if (position === this._length + 1) {
       this.append(value);
       return;
     }

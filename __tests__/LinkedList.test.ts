@@ -44,17 +44,17 @@ describe('Core Methods', () => {
 
   it('should return the correct node when using lookup', () => {
     appendNodes([1, 2, 3]);
-    expect(list.lookup(0)?.value).to.eql(1);
-    expect(list.lookup(1)?.value).to.eql(2);
-    expect(list.lookup(2)?.value).to.eql(3);
-    expect(list.lookup(3)).to.eql(null);
+    expect(list.lookup(1)?.value).to.eql(1);
+    expect(list.lookup(2)?.value).to.eql(2);
+    expect(list.lookup(3)?.value).to.eql(3);
+    expect(list.lookup(4)).to.eql(null);
   });
 
   it('should return the correct index when using indexOf', () => {
     appendNodes([1, 2, 3]);
-    expect(list.indexOf(1)).to.eql(0);
-    expect(list.indexOf(2)).to.eql(1);
-    expect(list.indexOf(3)).to.eql(2);
+    expect(list.indexOf(1)).to.eql(1);
+    expect(list.indexOf(2)).to.eql(2);
+    expect(list.indexOf(3)).to.eql(3);
     expect(list.indexOf(4)).to.eql(-1);
   });
 
