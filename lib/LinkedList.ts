@@ -1,50 +1,81 @@
 import { Node } from './Node';
 
+/**
+ * Generic LinkedList implementation.
+ * @template T Type of the data the LinkedList stores.
+ */
 export class LinkedList<T> {
   private _head: Node<T> | null = null;
+  private _tail: Node<T> | null = null; // Added tail property
   private _length: number = 0;
 
+  /**
+   * Gets the head node of the linked list.
+   */
   get head(): Node<T> | null {
     return this._head;
   }
 
+  /**
+   * Gets the tail node of the linked list.
+   */
+  get tail(): Node<T> | null {
+    return this._tail;
+  }
+
+  /**
+   * Gets the length of the linked list.
+   */
   get length(): number {
     return this._length;
   }
 
   // CORE
 
-  // Add a new node at the end of the list
+  /**
+   * Appends a new node with the provided value to the end of the linked list.
+   * @param value The value to append.
+   */
   append(value: T): void {
     const newNode = new Node(value);
     if (!this._head) {
       this._head = newNode;
+      this._tail = newNode;
       this._length = 1;
       return;
     }
 
-    let current = this._head;
-    while (current.next) {
-      current = current.next;
-    }
-    current.next = newNode;
+    this._tail!.next = newNode;
+    this._tail = newNode;
     this._length++;
   }
 
-  // Add a new node at the beginning of the list
+  /**
+   * Prepends a new node with the provided value to the beginning of the linked list.
+   * @param value The value to prepend.
+   */
   prepend(value: T): void {
     const newNode = new Node(value);
     newNode.next = this._head;
     this._head = newNode;
+    if (!this._tail) {
+      this._tail = newNode;
+    }
     this._length++;
   }
 
-  // Delete the first node with the given value
+  /**
+   * Deletes the first node with the provided value.
+   * @param value The value of the node to delete.
+   */
   delete(value: T): void {
     if (!this._head) return;
 
     if (this._head.value === value) {
       this._head = this._head.next;
+      if (!this._head) {
+        this._tail = null;
+      }
       this._length--;
       return;
     }
@@ -53,6 +84,9 @@ export class LinkedList<T> {
     while (current.next) {
       if (current.next.value === value) {
         current.next = current.next.next;
+        if (!current.next) {
+          this._tail = current;
+        }
         this._length--;
         return;
       }
@@ -63,8 +97,11 @@ export class LinkedList<T> {
 
   // ADVANCED
 
-  // Reverse the list
-
+  /**
+   * Reverses the list or a part of it.
+   * @param from Starting index of sublist to reverse.
+   * @param to Ending index of sublist to reverse.
+   */
   reverse(from?: number, to?: number): void {
     if (from === undefined && to === undefined) {
       this.reverseEntireList();
@@ -130,6 +167,10 @@ export class LinkedList<T> {
 
   // AUXILIARY
 
+  /**
+   * Converts the linked list to an array.
+   * @returns An array containing the values of the linked list.
+   */
   toArray(): T[] {
     const nodes: T[] = [];
     let current = this._head;
