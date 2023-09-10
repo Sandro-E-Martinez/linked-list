@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { LinkedList } from '../lib/LinkedList';
-import { reverseLinkedList } from '../lib/helpers/reverse';
+import { reverseLinkedList } from '../lib/helpers';
 
 describe('Reverse', () => {
   let list: LinkedList<number>;
