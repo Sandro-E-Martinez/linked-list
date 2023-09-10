@@ -65,6 +65,70 @@ export class LinkedList<T> {
   }
 
   /**
+   * Retrieves a node from the linked list based on its position.
+   * @param position The position of the node to retrieve.
+   * @returns The the node at the specified position.
+   */
+  lookup(position: number): Node<T> | null {
+    if (position < 0 || position >= this._length) {
+      return null;
+    }
+
+    let current = this._head;
+    for (let i = 0; i < position; i++) {
+      current = current!.next;
+    }
+    return current;
+  }
+
+  /**
+   * Retrieves the position of the first node with the specified value.
+   * @param value The value to search for.
+   * @returns The position of the first node with the given value, or -1 if not found.
+   */
+  indexOf(value: T): number {
+    let current = this._head;
+    let index = 0;
+
+    while (current) {
+      if (current.value === value) {
+        return index;
+      }
+      current = current.next;
+      index++;
+    }
+    return -1; // Value not found
+  }
+
+  /**
+   * Inserts a new node with the provided value at the specified position in the linked list.
+   * @param position The position at which to insert the value.
+   * @param value The value to insert.
+   * @throws An error if the position is invalid.
+   */
+  insert(position: number, value: T): void {
+    if (position < 0 || position > this._length) {
+      throw new Error('Invalid position.');
+    }
+
+    const newNode = new Node(value);
+
+    if (position === 0) {
+      this.prepend(value);
+    } else if (position === this._length) {
+      this.append(value);
+    } else {
+      const previousNode = this.lookup(position - 1);
+      if (previousNode) {
+        newNode.next = previousNode.next;
+        previousNode.next = newNode;
+      }
+    }
+
+    this._length++;
+  }
+
+  /**
    * Deletes the first node with the provided value.
    * @param value The value of the node to delete.
    */
@@ -99,8 +163,8 @@ export class LinkedList<T> {
 
   /**
    * Reverses the list or a part of it.
-   * @param from Starting index of sublist to reverse.
-   * @param to Ending index of sublist to reverse.
+   * @param from Starting position of sublist to reverse.
+   * @param to Ending position of sublist to reverse.
    */
   reverse(from?: number, to?: number): void {
     if (from === undefined && to === undefined) {
