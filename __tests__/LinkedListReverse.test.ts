@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-
 import { LinkedList } from '../lib/LinkedList';
+import { reverseLinkedList } from '../lib/helpers/reverse';
 
 describe('Reverse', () => {
   let list: LinkedList<number>;
@@ -14,31 +14,37 @@ describe('Reverse', () => {
   };
 
   it('should reverse an empty list', () => {
-    list.reverse();
+    list = new LinkedList(reverseLinkedList(list.head));
     expect(list.toArray()).to.eql([]);
   });
 
   it('should reverse a list with one node', () => {
     list.append(1);
-    list.reverse();
+    list = new LinkedList(reverseLinkedList(list.head));
     expect(list.toArray()).to.eql([1]);
   });
 
-  it('should reverse the list', () => {
+  it('should reverse the entire list', () => {
     appendNodes([1, 2, 3, 4, 5]);
-    list.reverse();
+    list = new LinkedList(reverseLinkedList(list.head));
     expect(list.toArray()).to.eql([5, 4, 3, 2, 1]);
   });
 
-  it('should reverse the list from the given index', () => {
+  it('should reverse the list from the given index to the end', () => {
     appendNodes([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    list.reverse(2, 7);
-    expect(list.toArray()).to.eql([1, 7, 6, 5, 4, 3, 2, 8, 9]);
+    list = new LinkedList(reverseLinkedList(list.head, 3));
+    expect(list.toArray()).to.eql([1, 2, 9, 8, 7, 6, 5, 4, 3]);
   });
 
-  it('should reverse full list from the given index if stars at 1 and end at the length of the list', () => {
+  it('should reverse a sublist from the given indices', () => {
+    appendNodes([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    list = new LinkedList(reverseLinkedList(list.head, 3, 7));
+    expect(list.toArray()).to.eql([1, 2, 7, 6, 5, 4, 3, 8, 9]);
+  });
+
+  it('should reverse full list from the given index if starts at 1 and ends at the length of the list', () => {
     appendNodes([1, 2, 3, 4, 5]);
-    list.reverse(1, 5);
+    list = new LinkedList(reverseLinkedList(list.head, 1, 5));
     expect(list.toArray()).to.eql([5, 4, 3, 2, 1]);
   });
 });
