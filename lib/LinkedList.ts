@@ -9,6 +9,10 @@ export class LinkedList<T> {
   private _tail: Node<T> | null = null; // Added tail property
   private _length: number = 0;
 
+  constructor(head?: Node<T> | null) {
+    this._head = head || null;
+  }
+
   /**
    * Gets the head node of the linked list.
    */
@@ -166,78 +170,6 @@ export class LinkedList<T> {
       this._length--;
     }
   }
-
-  // ADVANCED
-
-  /**
-   * Reverses the list or a part of it.
-   * @param from Starting position of sublist to reverse.
-   * @param to Ending position of sublist to reverse.
-   */
-  reverse(from?: number, to?: number): void {
-    if (from === undefined && to === undefined) {
-      this.reverseEntireList();
-    } else {
-      this.reverseSubList(from!, to!);
-    }
-  }
-
-  private reverseEntireList(): void {
-    if (!this._head) return;
-
-    let prev: Node<T> | null = null;
-    let current: Node<T> | null = this._head;
-    let next: Node<T> | null = null;
-
-    while (current) {
-      next = current.next;
-      current.next = prev;
-      prev = current;
-      current = next;
-    }
-    this._head = prev;
-  }
-
-  private reverseSubList(from: number, to: number): void {
-    if (!this._head) return;
-
-    if (from > to) throw new Error('"To" must be greater than "from"');
-    if (from < 1) throw new Error('"From" must be greater than 0');
-    if (to < 1) throw new Error('"To" must be greater than 0');
-    if (from > this._length)
-      throw new Error('"From" must be less than the length of the list');
-    if (to > this._length)
-      throw new Error('"To" must be less than the length of the list');
-
-    let startNode: Node<T> | null = null;
-    let current: Node<T> | null = this._head;
-
-    for (let i = 1; i < from; i++) {
-      startNode = current;
-      current = current!.next;
-    }
-
-    let newList: Node<T> | null = null;
-    let newListTail: Node<T> | null = current;
-    let next: Node<T> | null = null;
-
-    for (let i = from; i <= to; i++) {
-      next = current!.next;
-      current!.next = newList;
-      newList = current;
-      current = next;
-    }
-
-    if (startNode) {
-      startNode.next = newList;
-    } else {
-      this._head = newList;
-    }
-
-    newListTail!.next = current;
-  }
-
-  // AUXILIARY
 
   /**
    * Converts the linked list to an array.
