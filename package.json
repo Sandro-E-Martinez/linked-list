@@ -1,6 +1,6 @@
 {
   "name": "@sandro-e-martinez/linked-list",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Linked List implemented with typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
